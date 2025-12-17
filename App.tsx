@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { HashRouter, Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
+import { HashRouter, Routes, Route, Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Menu, X, Sun, Moon, GraduationCap, Users, Play, ChevronRight, 
+  Menu, X, Sun, Moon, GraduationCap, Users, Play, ChevronRight, ChevronDown,
   Eye, EyeOff, BookOpen, Globe, Award, Info, CheckCircle, ArrowLeft, ArrowRight,
   Search, MessageSquare, Quote, Layers, Zap, Trophy, Brain
 } from 'lucide-react';
@@ -25,26 +25,31 @@ const Sidebar = ({
   isOpen, 
   setIsOpen, 
   mode, 
-  setMode, 
-  lang, 
-  setLang 
+  setMode 
 }: { 
   isOpen: boolean; 
   setIsOpen: (o: boolean) => void;
   mode: AppMode;
   setMode: (m: AppMode) => void;
-  lang: Language;
-  setLang: (l: Language) => void;
 }) => {
+  const [isYNNGExpanded, setIsYNNGExpanded] = useState(true);
+  const { id: activeId } = useParams();
+  const [searchParams] = useSearchParams();
+  const activeStep = parseInt(searchParams.get('step') || '0');
+
   const menuVariants = {
     open: { x: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 30 } },
     closed: { x: '-100%', opacity: 0, transition: { type: 'spring', stiffness: 300, damping: 30 } }
   };
 
-  const modes = [
-    { id: 'student', icon: <GraduationCap />, label: 'Student Mode' },
-    { id: 'teacher', icon: <Users />, label: 'Teacher Mode' },
-    { id: 'kahoot', icon: <Play />, label: 'Kahoot Mode' },
+  const steps = [
+    { label: 'Strategy', icon: <Info className="w-3 h-3" /> },
+    { label: 'Vocabulary', icon: <BookOpen className="w-3 h-3" /> },
+    { label: 'Practice', icon: <GraduationCap className="w-3 h-3" /> },
+    { label: 'Logic', icon: <Layers className="w-3 h-3" /> },
+    { label: 'Quiz', icon: <Play className="w-3 h-3" /> },
+    { label: 'Reading', icon: <Globe className="w-3 h-3" /> },
+    { label: 'Analysis', icon: <Search className="w-3 h-3" /> },
   ];
 
   return (
@@ -65,32 +70,110 @@ const Sidebar = ({
         initial="closed"
         animate={isOpen ? "open" : "closed"}
         variants={menuVariants}
-        className="fixed top-0 left-0 h-full w-72 bg-white dark:bg-slate-900 shadow-2xl z-50 p-6 flex flex-col"
+        className="fixed top-0 left-0 h-full w-80 bg-white dark:bg-slate-900 shadow-2xl z-50 p-6 flex flex-col overflow-y-auto"
       >
-        <div className="flex justify-between items-center mb-10">
-          <Link to="/" onClick={() => setIsOpen(false)} className="text-xl font-bold tracking-tighter dark:text-white flex items-center gap-2">
+        <div className="flex justify-between items-center mb-8">
+          <Link to="/" onClick={() => setIsOpen(false)} className="text-xl font-black tracking-tighter dark:text-white flex items-center gap-2">
             <Award className="text-indigo-600" /> IELTS MASTER
           </Link>
-          <button onClick={() => setIsOpen(false)} className="dark:text-white"><X className="w-6 h-6" /></button>
+          <button onClick={() => setIsOpen(false)} className="dark:text-white p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+            <X className="w-6 h-6" />
+          </button>
         </div>
 
-        <nav className="flex-1 space-y-4">
-          <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2">Learning Experience</p>
-          {modes.map((m) => (
-            <button
-              key={m.id}
-              onClick={() => { setMode(m.id as AppMode); setIsOpen(false); }}
-              className={`w-full flex items-center gap-4 p-4 rounded-xl transition-all duration-300 ${
-                mode === m.id 
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30' 
-                : 'hover:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-300'
-              }`}
+        <nav className="flex-1 space-y-6">
+          {/* Section: Y/N/NG */}
+          <div className="space-y-2">
+            <button 
+              onClick={() => setIsYNNGExpanded(!isYNNGExpanded)}
+              className="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group"
             >
-              {m.icon}
-              <span className="font-medium">{m.label}</span>
+              <div className="flex items-center gap-3">
+                <Layers className="w-5 h-5 text-indigo-500" />
+                <span className="font-black text-xs uppercase tracking-widest dark:text-white">Y / N / NG</span>
+              </div>
+              {isYNNGExpanded ? <ChevronDown className="w-4 h-4 text-slate-400" /> : <ChevronRight className="w-4 h-4 text-slate-400" />}
             </button>
-          ))}
+
+            <AnimatePresence initial={false}>
+              {isYNNGExpanded && (
+                <motion.div 
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="overflow-hidden space-y-1 pl-2"
+                >
+                  {PASSAGES.map((p) => {
+                    const isActive = activeId === p.id.toString();
+                    return (
+                      <div key={p.id} className="space-y-1">
+                        <Link
+                          to={`/module/${p.id}?step=0`}
+                          onClick={() => setIsOpen(false)}
+                          className={`flex items-center gap-3 p-3 rounded-xl text-sm font-bold transition-all ${
+                            isActive 
+                            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20' 
+                            : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                          }`}
+                        >
+                          <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-white' : 'bg-slate-300 dark:bg-slate-700'}`} />
+                          {p.title}
+                        </Link>
+                        
+                        {isActive && (
+                          <div className="pl-6 space-y-1 py-1 border-l-2 border-indigo-100 dark:border-slate-800 ml-4">
+                            {steps.map((s, idx) => (
+                              <Link
+                                key={idx}
+                                to={`/module/${p.id}?step=${idx}`}
+                                onClick={() => setIsOpen(false)}
+                                className={`flex items-center gap-2 py-2 px-3 rounded-lg text-[11px] font-black uppercase tracking-wider transition-all ${
+                                  activeStep === idx 
+                                  ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20' 
+                                  : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+                                }`}
+                              >
+                                {s.icon}
+                                {s.label}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-4">
+             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-3">System Modes</p>
+             <div className="grid grid-cols-1 gap-2">
+                {[
+                  { id: 'student', icon: <GraduationCap className="w-4 h-4" />, label: 'Student' },
+                  { id: 'teacher', icon: <Users className="w-4 h-4" />, label: 'Teacher' },
+                  { id: 'kahoot', icon: <Play className="w-4 h-4" />, label: 'Kahoot' }
+                ].map((m) => (
+                  <button
+                    key={m.id}
+                    onClick={() => setMode(m.id as AppMode)}
+                    className={`flex items-center gap-3 p-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+                      mode === m.id 
+                      ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' 
+                      : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    {m.icon} {m.label}
+                  </button>
+                ))}
+             </div>
+          </div>
         </nav>
+
+        <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800">
+          <p className="text-[10px] text-slate-400 text-center font-bold">IELTS ACADEMIC V2.5.0</p>
+        </div>
       </motion.aside>
     </>
   );
@@ -242,8 +325,6 @@ const VocabularyPracticePage = ({ words, onNext }: { words: VocabularyWord[], on
   );
 };
 
-// --- NEW Paraphrase Step Components ---
-
 const ParaphraseTeachPage = ({ items, onNext }: { items: ParaphraseItem[], onNext: () => void }) => (
   <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl mx-auto space-y-12">
     <div className="text-center">
@@ -300,21 +381,17 @@ const KahootQuizPage = ({ quizzes, onNext }: { quizzes: QuizQuestion[], onNext: 
   const [currentIdx, setCurrentIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const handleOptionClick = (option: string) => {
     if (selectedOption) return;
     setSelectedOption(option);
-    const correct = option === quizzes[currentIdx].correctAnswer;
-    setIsCorrect(correct);
-    if (correct) setScore(s => s + 100);
+    if (option === quizzes[currentIdx].correctAnswer) setScore(s => s + 100);
   };
 
   const nextQuestion = () => {
     if (currentIdx < quizzes.length - 1) {
       setCurrentIdx(currentIdx + 1);
       setSelectedOption(null);
-      setIsCorrect(null);
     } else {
       onNext();
     }
@@ -373,9 +450,7 @@ const KahootQuizPage = ({ quizzes, onNext }: { quizzes: QuizQuestion[], onNext: 
   );
 };
 
-// --- Standard Wizard Pages Continued ---
-
-const ReadingPage = ({ passage, mode, lang, onNext }: { passage: Passage, mode: AppMode, lang: Language, onNext: () => void }) => {
+const ReadingPage = ({ passage, mode, onNext }: { passage: Passage, mode: AppMode, onNext: () => void }) => {
   const [showAnswers, setShowAnswers] = useState(mode === 'teacher');
   useEffect(() => setShowAnswers(mode === 'teacher'), [mode]);
 
@@ -441,72 +516,33 @@ const ExplanationPage = ({ passage }: { passage: Passage }) => (
         </motion.div>
       ))}
     </div>
-    <div className="flex justify-center pt-12"><Link to="/modules" className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-12 py-5 rounded-3xl font-black flex items-center gap-3 hover:scale-105 transition-all shadow-2xl active:scale-95">Complete Module <ArrowRight className="w-6 h-6" /></Link></div>
   </motion.div>
 );
 
 // --- Main Module Flow Wrapper ---
 
-const ModuleFlow = ({ mode, lang }: { mode: AppMode, lang: Language }) => {
+const ModuleFlow = ({ mode }: { mode: AppMode }) => {
   const { id } = useParams();
-  const [step, setStep] = useState(0); 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const step = parseInt(searchParams.get('step') || '0');
+  
   const passage = useMemo(() => PASSAGES.find(p => p.id === parseInt(id || '1')), [id]);
 
   if (!passage) return <div>Passage not found</div>;
 
-  const steps = [
-    { label: 'Strategy', icon: <Info className="w-4 h-4" /> },
-    { label: 'Vocabulary', icon: <BookOpen className="w-4 h-4" /> },
-    { label: 'Logic', icon: <Layers className="w-4 h-4" /> },
-    { label: 'Quiz', icon: <Play className="w-4 h-4" /> },
-    { label: 'Reading', icon: <Globe className="w-4 h-4" /> },
-    { label: 'Analysis', icon: <Search className="w-4 h-4" /> },
-  ];
+  const setStep = (s: number) => {
+    setSearchParams({ step: s.toString() });
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="flex items-center gap-2 mb-12 text-sm">
-        <Link to="/modules" className="text-slate-400 hover:text-indigo-600 flex items-center gap-1 transition-colors"><ArrowLeft className="w-4 h-4" /> Back to List</Link>
-        <span className="text-slate-300">/</span><span className="font-bold dark:text-white uppercase tracking-tighter">{passage.title}</span>
-      </div>
-
-      <div className="mb-16">
-        <div className="flex items-center justify-between relative">
-          <div className="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 dark:bg-slate-800 -z-10 -translate-y-1/2" />
-          {steps.map((s, idx) => {
-            let active = false;
-            // Map our component steps (0-4) to progress bar steps (0-5)
-            // 0: Strategy, 1: VocabPre + Practice, 2: ParaphraseTeach, 3: ParaphraseQuiz, 4: Reading, 5: Analysis
-            const currentProgressBarStep = step <= 2 ? step : (step === 3 ? 1 : step === 4 ? 2 : step === 5 ? 3 : step === 6 ? 4 : 5);
-            // Simpler re-map:
-            // step 0: Strategy
-            // step 1: VocabPre
-            // step 2: VocabPractice
-            // step 3: ParaphraseTeach
-            // step 4: ParaphraseQuiz
-            // step 5: Reading
-            // step 6: Explanation
-            const mappedStep = step === 0 ? 0 : step === 1 || step === 2 ? 1 : step === 3 ? 2 : step === 4 ? 3 : step === 5 ? 4 : 5;
-            
-            return (
-              <div key={idx} className="flex flex-col items-center gap-2 bg-slate-50 dark:bg-slate-950 px-4">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${mappedStep === idx ? 'bg-indigo-600 text-white scale-125 shadow-lg' : mappedStep > idx ? 'bg-emerald-500 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-500'}`}>
-                  {mappedStep > idx ? <CheckCircle className="w-5 h-5" /> : s.icon}
-                </div>
-                <span className={`text-[10px] font-bold uppercase tracking-widest ${mappedStep === idx ? 'text-indigo-600' : 'text-slate-400'}`}>{s.label}</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
       <AnimatePresence mode="wait">
         {step === 0 && <StrategyPage onNext={() => setStep(1)} />}
         {step === 1 && <VocabularyPrePage words={passage.vocabulary} onNext={() => setStep(2)} />}
         {step === 2 && <VocabularyPracticePage words={passage.vocabulary} onNext={() => setStep(3)} />}
         {step === 3 && <ParaphraseTeachPage items={passage.paraphrases} onNext={() => setStep(4)} />}
         {step === 4 && <KahootQuizPage quizzes={passage.paraphraseQuizzes} onNext={() => setStep(5)} />}
-        {step === 5 && <ReadingPage passage={passage} mode={mode} lang={lang} onNext={() => setStep(6)} />}
+        {step === 5 && <ReadingPage passage={passage} mode={mode} onNext={() => setStep(6)} />}
         {step === 6 && <ExplanationPage passage={passage} />}
       </AnimatePresence>
     </div>
@@ -521,37 +557,15 @@ const LandingPage = () => (
     <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="max-w-4xl">
       <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-full text-indigo-600 dark:text-indigo-400 text-xs font-black tracking-widest mb-8 border border-indigo-100 dark:border-indigo-800"><Award className="w-4 h-4" /> THE ACADEMIC EDGE</div>
       <h1 className="serif text-6xl md:text-8xl font-bold text-slate-900 dark:text-white mb-8 leading-tight tracking-tight">High Performance <br/> Reading Mastery.</h1>
-      <p className="text-xl text-slate-600 dark:text-slate-400 mb-12 leading-relaxed max-w-2xl mx-auto font-light">A premium ecosystem designed to bridge the gap between intermediate learning and academic excellence. Multi-modal training for serious IELTS candidates.</p>
-      <div className="flex flex-col sm:flex-row gap-6 justify-center">
-        <Link to="/modules" className="bg-indigo-600 hover:bg-indigo-700 text-white px-12 py-5 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-105 shadow-xl shadow-indigo-500/20">Explore Passages <ChevronRight className="w-5 h-5" /></Link>
-      </div>
+      <p className="text-xl text-slate-600 dark:text-slate-400 mb-12 leading-relaxed max-w-2xl mx-auto font-light">A premium ecosystem designed to bridge the gap between intermediate learning and academic excellence. Open the menu to explore the modules.</p>
     </motion.div>
   </div >
-);
-
-const ModuleList = () => (
-  <div className="max-w-7xl mx-auto px-4 py-20">
-    <div className="text-center mb-16"><h2 className="serif text-4xl font-bold dark:text-white mb-4">Reading Passages</h2><p className="text-slate-500">Each module includes strategy, vocabulary, and assessment.</p></div>
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {PASSAGES.map((p, idx) => (
-        <motion.div key={p.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} className="group relative">
-          <Link to={`/module/${p.id}`} className="relative flex flex-col h-full bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 transition-all group-hover:-translate-y-2 shadow-sm">
-            <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform"><BookOpen className="w-6 h-6" /></div>
-            <h3 className="text-2xl font-bold dark:text-white mb-4">{p.title}</h3>
-            <p className="text-slate-500 dark:text-slate-400 line-clamp-2 text-sm mb-8 italic">"{p.headline}"</p>
-            <div className="mt-auto flex items-center justify-between"><span className="text-xs font-black text-slate-300 uppercase tracking-widest">{p.questions.length} Questions</span><div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors"><ChevronRight className="w-5 h-5" /></div></div>
-          </Link>
-        </motion.div>
-      ))}
-    </div>
-  </div>
 );
 
 const App = () => {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [mode, setMode] = useState<AppMode>('student');
-  const [lang, setLang] = useState<Language>('en');
 
   useEffect(() => {
     if (theme === 'dark') document.documentElement.classList.add('dark');
@@ -564,15 +578,40 @@ const App = () => {
         <header className="sticky top-0 z-30 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-900">
           <div className="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
             <div className="flex items-center gap-6">
-              <button onClick={() => setIsSidebarOpen(true)} className="p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all active:scale-90"><Menu className="w-6 h-6 dark:text-white" /></button>
+              <button onClick={() => setIsSidebarOpen(true)} className="p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all active:scale-90 group">
+                <Menu className="w-6 h-6 dark:text-white group-hover:rotate-90 transition-transform" />
+              </button>
               <Link to="/" className="hidden md:flex items-center gap-2 group"><div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold group-hover:rotate-6 transition-transform shadow-lg shadow-indigo-500/30">IM</div><span className="font-black text-xl tracking-tighter dark:text-white">IELTS MASTER</span></Link>
             </div>
             <div className="flex items-center gap-3"><span className="hidden md:block text-[10px] font-black text-indigo-500 uppercase tracking-widest">{mode}</span><ThemeToggle theme={theme} setTheme={setTheme} /></div>
           </div>
         </header>
-        <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} mode={mode} setMode={setMode} lang={lang} setLang={setLang} />
-        <main><Routes><Route path="/" element={<LandingPage />} /><Route path="/modules" element={<ModuleList />} /><Route path="/module/:id" element={<ModuleFlow mode={mode} lang={lang} />} /></Routes></main>
-        <footer className="mt-20 py-16 border-t border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-950"><div className="max-w-7xl mx-auto px-4 text-center"><div className="flex justify-center gap-12 mb-8"><BookOpen className="w-6 h-6 text-slate-200" /><Globe className="w-6 h-6 text-slate-200" /><GraduationCap className="w-6 h-6 text-slate-200" /></div><p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Premium Academic Training Ecosystem</p><p className="text-slate-300 dark:text-slate-600 text-[10px] mt-4">© 2025 IELTS MASTER. Built for excellence.</p></div></footer>
+
+        <Sidebar 
+          isOpen={isSidebarOpen} 
+          setIsOpen={setIsSidebarOpen} 
+          mode={mode} 
+          setMode={setMode} 
+        />
+
+        <main>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/module/:id" element={<ModuleFlow mode={mode} />} />
+          </Routes>
+        </main>
+
+        <footer className="mt-20 py-16 border-t border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-950">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+             <div className="flex justify-center gap-12 mb-8 opacity-20">
+                <BookOpen className="w-6 h-6 text-slate-400" />
+                <Globe className="w-6 h-6 text-slate-400" />
+                <GraduationCap className="w-6 h-6 text-slate-400" />
+             </div>
+             <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Premium Academic Training Ecosystem</p>
+             <p className="text-slate-300 dark:text-slate-600 text-[10px] mt-4">© 2025 IELTS MASTER. Built for excellence.</p>
+          </div>
+        </footer>
       </div>
     </HashRouter>
   );
