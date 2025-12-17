@@ -2,44 +2,54 @@
 export type AppMode = 'student' | 'teacher' | 'kahoot';
 export type Language = 'en' | 'ru' | 'uz';
 
-export interface VocabularyWord {
+export interface VocabularyItem {
   word: string;
-  ru: string;
-  uz: string;
   definition: string;
+  ru?: string;
+  uz?: string;
+  quiz: {
+    question: string;
+    answer: string;
+    options: string[];
+  };
 }
 
-export interface ParaphraseItem {
+export interface GrammarQuiz {
   original: string;
-  paraphrase: string;
-  type: 'vocabulary' | 'grammar';
-  explanation: string;
+  transform: string;
+  answer: string;
 }
 
-export interface QuizQuestion {
-  question: string;
-  options: string[];
-  correctAnswer: string;
+export interface GrammarSection {
+  topic: string;
+  explanation: string;
+  quiz: GrammarQuiz[];
 }
 
 export interface Question {
   id: number;
+  type: 'TFNG' | 'YNNG' | 'MCQ' | 'GAP_FILL' | 'SHORT_ANSWER' | 'MATCHING_HEADINGS' | 'FLOW_CHART';
   text: string;
-  answer: 'YES' | 'NO' | 'NOT GIVEN';
-  explanation: string;
+  options?: string[];
+  correctAnswer: string;
+  explanation?: string;
+  limit?: string; // e.g., "ONE_WORD"
 }
 
 export interface Passage {
-  id: number;
+  id: string;
   title: string;
-  translations: {
-    ru: string;
-    uz: string;
-  };
-  headline: string;
   content: string;
-  vocabulary: VocabularyWord[];
-  paraphrases: ParaphraseItem[];
-  paraphraseQuizzes: QuizQuestion[];
   questions: Question[];
+}
+
+export interface ReadingModule {
+  id: string;
+  moduleTitle: string;
+  vocabSection: VocabularyItem[];
+  grammarSection: GrammarSection;
+  testData: {
+    timerSeconds: number;
+    passages: Passage[];
+  };
 }
