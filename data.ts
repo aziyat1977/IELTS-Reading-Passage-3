@@ -3,7 +3,90 @@ import { ReadingModule } from './types';
 
 export const ACADEMIC_MODULES: ReadingModule[] = [
   {
+    id: "ynng-mastery",
+    category: 'skill-training',
+    moduleTitle: "Y/N/NG Mastery Lab",
+    vocabSection: [],
+    grammarSection: { topic: "Logical Connectives", explanation: "Finding contradictions.", quiz: [] },
+    testData: {
+      timerSeconds: 2700,
+      passages: [
+        {
+          id: "cosmo",
+          title: "Cosmology",
+          translations: { ru: "Космология", uz: "Kosmologiya" },
+          headline: "The Crisis in Cosmology is Getting Worse",
+          content: "The standard model of cosmology, Lambda-CDM, has long been the bedrock of our understanding of the universe. It successfully explains the cosmic microwave background (CMB) and the distribution of galaxies. However, a deepening fissure known as the 'Hubble Tension'—the discrepancy between the expansion rate of the universe measured locally versus that predicted by the CMB—refuses to heal. Recent data from the James Webb Space Telescope has seemingly exacerbated the problem, ruling out measurement error as a convenient scapegoat. While some theorists propose 'Early Dark Energy' as a patch, others argue this is merely adding epicycles to a dying theory. We may be forcing observations to fit a model that is fundamentally broken, suggesting that our grasp of gravity on cosmic scales requires a complete paradigm shift rather than minor tweaks.",
+          questions: [
+            { id: 1, type: 'YNNG', text: "The Lambda-CDM model has failed to explain the distribution of galaxies.", correctAnswer: "NO" },
+            { id: 2, type: 'YNNG', text: "The data from the James Webb Space Telescope has helped resolve the Hubble Tension.", correctAnswer: "NO" },
+            { id: 3, type: 'YNNG', text: "Measurement error is no longer considered a likely cause of the discrepancy.", correctAnswer: "YES" },
+            { id: 4, type: 'YNNG', text: "'Early Dark Energy' is universally accepted by physicists as the correct solution.", correctAnswer: "NOT GIVEN" },
+            { id: 5, type: 'YNNG', text: "The writer suggests that a completely new theory of gravity might be necessary.", correctAnswer: "YES" }
+          ]
+        },
+        {
+          id: "ai",
+          title: "Artificial Intelligence",
+          translations: { ru: "Искусственный интеллект", uz: "Sun'iy intellekt" },
+          headline: "The Jevons Paradox of AI Efficiency",
+          content: "There is a seductive logic in the tech industry that more efficient AI chips will naturally lead to a lower carbon footprint. This optimism, however, ignores the Jevons Paradox: as technology increases the efficiency with which a resource is used, the total consumption of that resource increases rather than decreases. As neural networks become cheaper to run, they are being integrated into trivial applications—from smart toasters to email auto-completes—where they were previously cost-prohibitive. Consequently, the aggregate energy demand of the sector is skyrocketing. Unless regulatory caps are imposed, efficiency gains will essentially cannibalise themselves, leading to a net increase in global emissions regardless of how 'green' the individual processors become.",
+          questions: [
+            { id: 6, type: 'YNNG', text: "The tech industry generally believes that efficiency leads to reduced energy consumption.", correctAnswer: "YES" },
+            { id: 7, type: 'YNNG', text: "The integration of AI into household appliances like toasters is currently declining.", correctAnswer: "NOT GIVEN" },
+            { id: 8, type: 'YNNG', text: "The Jevons Paradox suggests that efficiency gains result in lower overall resource use.", correctAnswer: "NO" },
+            { id: 9, type: 'YNNG', text: "Smart toasters use more energy than standard toasters.", correctAnswer: "NOT GIVEN" },
+            { id: 10, type: 'YNNG', text: "The writer believes that government regulation is necessary to stop the rise in emissions.", correctAnswer: "YES" }
+          ]
+        },
+        {
+          id: "bioethics",
+          title: "Bioethics",
+          translations: { ru: "Биоэтика", uz: "Bioetika" },
+          headline: "Redefining the Human Embryo",
+          content: "The creation of 'synthetic embryos' from stem cells—without the use of sperm or eggs—has bypassed the traditional biological definition of conception. While these structures offer an unparalleled window into the 'black box' of early human development, they exist in a legal and ethical vacuum. Current guidelines, such as the 14-day rule which limits how long embryos can be grown in the lab, were written for natural embryos. Proponents argue these synthetic models are not truly 'human' as they lack the potential to develop into a fetus. However, as these models become increasingly sophisticated, mimicking heartbeats and brain precursors, the distinction between 'model' and 'life' is collapsing, necessitating a frantic update to bioethical frameworks that are decades out of date.",
+          questions: [
+            { id: 11, type: 'YNNG', text: "Synthetic embryos provide insights into early development that were previously inaccessible.", correctAnswer: "YES" },
+            { id: 12, type: 'YNNG', text: "The 14-day rule was specifically designed to regulate synthetic embryos.", correctAnswer: "NO" },
+            { id: 13, type: 'YNNG', text: "Scientists have successfully grown a synthetic embryo into a full-term fetus.", correctAnswer: "NOT GIVEN" },
+            { id: 14, type: 'YNNG', text: "Supporters of synthetic embryos claim they are biologically identical to natural human embryos.", correctAnswer: "NO" },
+            { id: 15, type: 'YNNG', text: "The writer feels that current bioethical laws are sufficient to handle these new developments.", correctAnswer: "NO" }
+          ]
+        },
+        {
+          id: "plantbio",
+          title: "Plant Biology",
+          translations: { ru: "Биология растений", uz: "O'simliklar biologiyasi" },
+          headline: "The Controversy of 'Plant Intelligence'",
+          content: "To describe plants as 'intelligent' is to invite scorn from orthodox biologists, who argue that cognition requires a central nervous system. Yet, recent experiments demonstrate that plants can learn from experience, communicate via fungal networks, and even count. The mimosa plant, for instance, learns to ignore harmless stimuli while retaining defensive reflexes for real threats. The reluctance to label this 'intelligence' stems from an animal-centric bias in our language rather than a lack of biological complexity. If we define intelligence as the ability to process information and solve problems to ensure survival, then plants are not merely passive scenery, but cognitive agents in their own right.",
+          questions: [
+            { id: 16, type: 'YNNG', text: "Most traditional biologists accept the idea that plants are intelligent.", correctAnswer: "NO" },
+            { id: 17, type: 'YNNG', text: "The mimosa plant shows the ability to distinguish between dangerous and safe stimuli.", correctAnswer: "YES" },
+            { id: 18, type: 'YNNG', text: "Plants use fungal networks to share nutrients with weaker plants.", correctAnswer: "NOT GIVEN" },
+            { id: 19, type: 'YNNG', text: "The writer believes the definition of intelligence should be limited to organisms with brains.", correctAnswer: "NO" },
+            { id: 20, type: 'YNNG', text: "The refusal to call plants intelligent is caused by a bias towards animal biology.", correctAnswer: "YES" }
+          ]
+        },
+        {
+          id: "geoengineering",
+          title: "Geoengineering",
+          translations: { ru: "Геоинженерия", uz: "Geoinjeneriya" },
+          headline: "The Trap of Termination Shock",
+          content: "Solar radiation modification (SRM)—spraying aerosols into the stratosphere to reflect sunlight—is often touted as a cheap, rapid fix for global warming. Technically, it is feasible. Politically and ecologically, however, it is a minefield. The most terrifying risk is 'termination shock.' If a geoengineering program were to be launched and then suddenly stopped—perhaps due to war, terrorism, or economic collapse—the masked warming would rebound with catastrophic speed. The global temperature could spike by several degrees within a decade, shattering ecosystems that cannot adapt that quickly. Thus, starting SRM is not just an engineering decision; it is a commitment to maintain a technological life-support system for centuries, with no easy exit strategy.",
+          questions: [
+            { id: 21, type: 'YNNG', text: "Solar radiation modification is considered technically impossible to achieve.", correctAnswer: "NO" },
+            { id: 22, type: 'YNNG', text: " 'Termination shock' would result in a gradual, manageable rise in temperatures.", correctAnswer: "NO" },
+            { id: 23, type: 'YNNG', text: "Political instability could potentially cause the sudden cessation of an SRM program.", correctAnswer: "YES" },
+            { id: 24, type: 'YNNG', text: "Ecosystems would be able to adapt to the temperature spike caused by termination shock.", correctAnswer: "NO" },
+            { id: 25, type: 'YNNG', text: "The writer views SRM as a temporary solution that is easy to stop once started.", correctAnswer: "NO" }
+          ]
+        }
+      ]
+    }
+  },
+  {
     id: "vol-1",
+    category: 'full-test',
     moduleTitle: "Academic Reading Vol. 1",
     vocabSection: [
       {
@@ -12,99 +95,23 @@ export const ACADEMIC_MODULES: ReadingModule[] = [
         ru: "Крепостной вал",
         uz: "Mudofaa devori",
         quiz: { question: "The soldiers stood on the ____ to watch for enemies.", answer: "rampart", options: ["rampart", "threshold", "ditch"] }
-      },
-      {
-        word: "Inhospitable",
-        definition: "(of an environment) harsh and difficult to live in.",
-        ru: "Негостеприимный",
-        uz: "Noqulay",
-        quiz: { question: "The desert is an ____ place for humans.", answer: "inhospitable", options: ["inhospitable", "resilient", "nuanced"] }
-      },
-      {
-        word: "Extinguish",
-        definition: "To cause to cease to exist; to wipe out completely.",
-        ru: "Истреблять",
-        uz: "Yo'q qilmoq",
-        quiz: { question: "The ancient tribe was ____ after the great drought.", answer: "extinguished", options: ["extinguished", "descended", "proliferated"] }
-      },
-      {
-        word: "Resilience",
-        definition: "The capacity to recover quickly from difficulties; toughness.",
-        ru: "Стойкость",
-        uz: "Chidamlilik",
-        quiz: { question: "The ancient tribe showed amazing ____ by surviving.", answer: "resilience", options: ["resilience", "mitigation", "extraction"] }
       }
     ],
     grammarSection: {
       topic: "Nominalization",
-      explanation: "Turning verbs/adjectives into nouns to make text sound objective and academic.",
-      quiz: [
-        { original: "The population grew rapidly.", transform: "The rapid ____ of the population.", answer: "growth" },
-        { original: "The chemical reacted violently.", transform: "The violent ____ of the chemical.", answer: "reaction" },
-        { original: "We must analyse the data carefully.", transform: "Careful ____ of the data is required.", answer: "analysis" }
-      ]
+      explanation: "Turning verbs into nouns for academic tone.",
+      quiz: [{ original: "The population grew rapidly.", transform: "The rapid ____ of the population.", answer: "growth" }]
     },
     testData: {
       timerSeconds: 3600,
       passages: [
         {
           id: "p1",
-          title: "The Ancient Empire That Civilization Forgot",
-          content: `No pillars or high walls mark the ruins of Hattusa today; just stone foundations and gateways scattered across the central Anatolian plateau. Yet for five centuries, this city was the capital of the Hittite Empire, a superpower that rivaled ancient Egypt and Babylon. The Hittites were the first to record their language in cuneiform script and were among the first to master ironworking. They were known for their military prowess, particularly their use of light, three-person chariots that gave them a tactical advantage in battle.
-
-The most significant event in Hittite history was the Battle of Kadesh in 1274 B.C., a massive chariot battle against the Egyptian forces of Ramses II. While the battle itself ended in a stalemate, it resulted in the world’s first recorded peace treaty, a copy of which is displayed today at the United Nations headquarters. Despite their power, the Hittites were eventually forgotten by history books until digs in the early 1900s finally unearthed their capital, confirming suspicions that a third great power had once existed alongside Egypt and Mesopotamia.
-
-The environment around Hattusa was inhospitable, with scorching summers and frigid winters. The plains were bone-dry for most of the year. To survive, the Hittites built massive granaries and sophisticated water systems. They herded tens of thousands of sheep and goats to ensure food security. However, their empire was fragile. Internal civil wars and constant threats from the Kaska, northern raiders, weakened their grip. Eventually, Hattusa appears to have been emptied out slowly, with valuable items removed before a final fire destroyed the empty structures. Unlike other cities sacked by invaders, Hattusa was simply abandoned by a people who had reached their environmental and political threshold.`,
+          title: "The Ancient Empire",
+          headline: "The Hittites: The Empire That History Forgot",
+          content: `No pillars or high walls mark the ruins of Hattusa today; just stone foundations...`,
           questions: [
-            { id: 1, type: "TFNG", text: "The ruins of Hattusa are currently marked by tall pillars and high walls that are still standing.", correctAnswer: "FALSE" },
-            { id: 2, type: "TFNG", text: "The Hittite Empire was less powerful than the Egyptian and Babylonian empires during its peak.", correctAnswer: "FALSE" },
-            { id: 3, type: "TFNG", text: "The Battle of Kadesh led to the creation of the first known peace treaty in history.", correctAnswer: "TRUE" },
-            { id: 4, type: "TFNG", text: "Archaeological excavations in the early 1900s confirmed the location of the Hittite capital.", correctAnswer: "TRUE" },
-            { id: 5, type: "TFNG", text: "The Hittite capital was located in an area with a mild climate and consistent rainfall.", correctAnswer: "FALSE" },
-            { id: 6, type: "GAP_FILL", text: "For centuries, the Hittites were forgotten, unlike the ____ or Assyrians.", limit: "ONE_WORD", correctAnswer: "Egyptians" },
-            { id: 7, type: "GAP_FILL", text: "Evidence was first found in carvings on Egyptian ____.", limit: "ONE_WORD", correctAnswer: "temples" },
-            { id: 8, type: "GAP_FILL", text: "Confirmation came from the discovery of ____ tablets.", limit: "ONE_WORD", correctAnswer: "clay" },
-            { id: 9, type: "GAP_FILL", text: "The nearby plains were ____ for most of the year.", limit: "ONE_WORD", correctAnswer: "bone-dry" },
-            { id: 10, type: "SHORT_ANSWER", text: "What animals did the Hittites herd to ensure they had food?", correctAnswer: "sheep and goats" },
-            { id: 11, type: "SHORT_ANSWER", text: "Who were the northern raiders that constantly threatened the Empire?", correctAnswer: "the kaska" },
-            { id: 12, type: "SHORT_ANSWER", text: "What natural phenomenon frequently damaged the heartland?", correctAnswer: "earthquakes" },
-            { id: 13, type: "SHORT_ANSWER", text: "What is the abandonment of Hattusa compared to, given that valuable items were removed?", correctAnswer: "emptied out slowly" }
-          ]
-        },
-        {
-          id: "p2",
-          title: "The Economics of Attention",
-          content: `In the digital age, attention is the new oil. Large technology firms do not primarily sell software; they sell the certainty that a user’s gaze will linger on a specific advertisement or piece of content. This 'attention economy' operates on the principle that in an environment of infinite information, attention is the only scarce resource. As the psychologist Herbert Simon predicted decades ago, a wealth of information creates a poverty of attention.
-
-This economy suffers from significant externalities. Just as a factory might pollute a physical river to lower its production costs, attention-capture algorithms can 'pollute' the cognitive environment. They favor outrage, polarization, and sensationalism because these emotions are most effective at keeping users engaged. The result is a fragmented public sphere and a decline in collective focus.
-
-Digital minimalism has emerged as a response to this commodification. Proponents argue that we must reclaim our sovereign attention by curating our digital environments and prioritizing high-quality, long-form information over addictive social media loops. Some economists suggest a shift in business models is necessary, moving from ad-supported platforms to subscription-based services that align the platform's incentives with the user's well-being.`,
-          questions: [
-            { id: 14, type: "MCQ", text: "What is the primary product sold by major Silicon Valley companies?", options: ["Free software", "Hardware devices", "User attention", "Data security"], correctAnswer: "C" },
-            { id: 15, type: "MCQ", text: "What does 'cognitive pollution' refer to in the text?", options: ["Excessive noise", "Decline in focus", "Bad internet", "Fake news"], correctAnswer: "B" },
-            { id: 16, type: "MCQ", text: "Why do algorithms favor outrage and polarization?", options: ["User safety", "Better UI", "Higher engagement", "Legal compliance"], correctAnswer: "C" },
-            { id: 17, type: "GAP_FILL", text: "A fundamental change in ____ models might be necessary.", limit: "ONE_WORD", correctAnswer: "business" },
-            { id: 18, type: "GAP_FILL", text: "Moving towards ____ services could align incentives.", limit: "ONE_WORD", correctAnswer: "subscription" },
-            { id: 19, type: "GAP_FILL", text: "Digital minimalism treats attention as a valuable ____.", limit: "ONE_WORD", correctAnswer: "asset" }
-          ]
-        },
-        {
-          id: "p3",
-          title: "Climate Tipping Points",
-          content: `The concept of 'tipping points' in the climate system refers to critical thresholds where a small change can push a system into a completely new state—often one that is irreversible. Scientists identify several major tipping points that could trigger cascading failures across the globe.
-
-One such point is the Amazon rainforest. If deforestation reaches a certain percentage, the forest will lose its ability to generate its own rainfall, turning it into a dry savanna and releasing massive amounts of stored carbon. Another is the Atlantic Meridional Overturning Circulation (AMOC), the current that regulates the climate of the Northern Hemisphere. A collapse of the AMOC would lead to much harsher winters in Europe and disrupted monsoons in the tropics.
-
-Addressing these risks requires 'frontloaded' mitigation pathways. This means deep decarbonization must happen now rather than later. However, positive tipping points also exist. For example, as renewable energy becomes cheaper and more widespread, it can trigger a rapid mass adoption that displaces fossil fuels much faster than traditional models predict. The challenge for policymakers is to tip the world away from catastrophic outcomes and toward these positive, self-reinforcing loops.`,
-          questions: [
-            { id: 27, type: "TFNG", text: "The destruction of the Amazon would have a negligible effect on carbon emissions.", correctAnswer: "FALSE" },
-            { id: 28, type: "TFNG", text: "The collapse of AMOC would lead to milder winters in Europe.", correctAnswer: "FALSE" },
-            { id: 29, type: "TFNG", text: "Solar power is an example of a positive tipping point already crossed.", correctAnswer: "TRUE" },
-            { id: 30, type: "GAP_FILL", text: "Amazon is in danger of turning into a ____.", limit: "TWO_WORDS", correctAnswer: "dry savanna" },
-            { id: 31, type: "GAP_FILL", text: "The ____ regulates Northern Hemisphere climate.", limit: "ONE_WORD", correctAnswer: "AMOC" },
-            { id: 32, type: "FLOW_CHART", text: "Technology becomes ____ and better.", correctAnswer: "cheaper" },
-            { id: 33, type: "FLOW_CHART", text: "Rapid mass ____ occurs.", correctAnswer: "adoption" },
-            { id: 34, type: "FLOW_CHART", text: "Triggers ____ across other sectors.", correctAnswer: "cascades" }
+            { id: 1, type: "TFNG", text: "The ruins of Hattusa are currently marked by tall pillars...", correctAnswer: "FALSE" }
           ]
         }
       ]

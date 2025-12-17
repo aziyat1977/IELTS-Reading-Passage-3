@@ -33,18 +33,21 @@ export interface Question {
   options?: string[];
   correctAnswer: string;
   explanation?: string;
-  limit?: string; // e.g., "ONE_WORD"
+  limit?: string;
 }
 
 export interface Passage {
   id: string;
   title: string;
+  translations?: { ru: string; uz: string };
+  headline: string;
   content: string;
   questions: Question[];
 }
 
 export interface ReadingModule {
   id: string;
+  category: 'skill-training' | 'full-test';
   moduleTitle: string;
   vocabSection: VocabularyItem[];
   grammarSection: GrammarSection;
